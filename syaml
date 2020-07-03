@@ -22,8 +22,10 @@ def recur_sort(data: Any) -> Any:
 
 
 def parse_args() -> Namespace:
+    cols, _ = get_terminal_size((80, -1))
     parser = ArgumentParser()
     parser.add_argument("-i", "--indent", type=int, default=2)
+    parser.add_argument("-w", "--width", type=int, default=cols)
     return parser.parse_args()
 
 
@@ -39,10 +41,7 @@ def main() -> None:
     args = parse_args()
     data = stdin.read()
 
-    max_w = 80
-    fold_pt = max_w // 2
-    cols, _ = get_terminal_size((max_w, -1))
-    cols = min(cols, max_w)
+    fold_pt = args.width // 2
     add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)
 
     try:
@@ -57,7 +56,7 @@ def main() -> None:
             stdout,
             allow_unicode=True,
             explicit_start=True,
-            width=cols,
+            width=args.width,
             indent=args.indent,
         )
 
