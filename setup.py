@@ -9,7 +9,7 @@ def slurp(path: str) -> str:
 
 
 setup(
-    name="sorted",
+    name="sortd",
     version="1.0.0",
     description="",
     long_description=slurp("README.md"),
@@ -17,5 +17,5 @@ setup(
     author="ms-jpq",
     author_email="github@bigly.dog",
     url="",
-    scripts=["sjson", "syaml", "stoml"],
+    scripts=["slines", "sjson", "syaml", "stoml"],
 )
