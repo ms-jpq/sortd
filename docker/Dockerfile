@@ -1,0 +1,4 @@
+FROM python:latest
+
+
+COPY . /
