@@ -10,3 +10,9 @@ Collection of `stdin` -> `stdout` sorting commands
 | sjson   | json   |
 | syaml   | yaml   |
 | stoml   | toml   |
+
+## Install
+
+```sh
+pip3 install -U sortd
+```

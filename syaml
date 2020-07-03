@@ -36,7 +36,6 @@ def repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
 
 
 def main() -> None:
-    signal(SIGPIPE, SIG_DFL)
     args = parse_args()
     data = stdin.read()
 
@@ -64,6 +63,7 @@ def main() -> None:
 
 
 try:
+    signal(SIGPIPE, SIG_DFL)
     main()
 except KeyboardInterrupt:
     exit(130)

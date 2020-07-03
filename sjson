@@ -24,7 +24,6 @@ def parse_args() -> Namespace:
 
 
 def main() -> None:
-    signal(SIGPIPE, SIG_DFL)
     args = parse_args()
     data = stdin.read()
     try:
@@ -38,6 +37,7 @@ def main() -> None:
 
 
 try:
+    signal(SIGPIPE, SIG_DFL)
     main()
 except KeyboardInterrupt:
     exit(130)

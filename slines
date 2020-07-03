@@ -2,7 +2,8 @@
 
 from argparse import ArgumentParser, Namespace
 from locale import strxfrm
-from sys import stderr, stdin
+from signal import SIG_DFL, SIGPIPE, signal
+from sys import stdin
 from typing import List
 
 
@@ -15,9 +16,6 @@ def parse_args() -> Namespace:
 
 def main() -> None:
     args = parse_args()
-    if stdin.isatty():
-        print("Nil stdin", file=stderr)
-        exit(1)
     input_d = "\0" if args.read0 else "\n"
     output_d = "\0" if args.print0 else "\n"
     lines: List[str] = stdin.read().split(input_d)
@@ -25,4 +23,8 @@ def main() -> None:
     print(*lines, sep=output_d, end="")
 
 
-main()
+try:
+    signal(SIGPIPE, SIG_DFL)
+    main()
+except KeyboardInterrupt:
+    exit(130)

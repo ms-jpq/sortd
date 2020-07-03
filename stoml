@@ -19,7 +19,6 @@ def recur_sort(data: Any) -> Any:
 
 
 def main() -> None:
-    signal(SIGPIPE, SIG_DFL)
     data = stdin.read()
     try:
         toml = loads(data)
@@ -32,6 +31,7 @@ def main() -> None:
 
 
 try:
+    signal(SIGPIPE, SIG_DFL)
     main()
 except KeyboardInterrupt:
     exit(130)
