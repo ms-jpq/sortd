@@ -11,7 +11,7 @@ Collection of `stdin` -> `stdout` sorting commands
 | syaml   | yaml   |
 | stoml   | toml   |
 
-## Install
+## [Install](https://pypi.org/project/sortd)
 
 ```sh
 pip3 install -U sortd
