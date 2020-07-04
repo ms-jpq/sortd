@@ -5,7 +5,7 @@ from signal import SIG_DFL, SIGPIPE, signal
 from sys import stderr, stdin, stdout
 from typing import Any
 
-from toml import dump, loads
+from toml import dump, load
 from toml.decoder import TomlDecodeError
 
 
@@ -19,11 +19,10 @@ def recur_sort(data: Any) -> Any:
 
 
 def main() -> None:
-    data = stdin.read()
     try:
-        toml = loads(data)
+        toml = load(stdin)
     except TomlDecodeError:
-        print(f"ERROR! -- Failed to parse:\n\n{data}", file=stderr)
+        print("parse error!", file=stderr)
         exit(1)
     else:
         new = recur_sort(toml)

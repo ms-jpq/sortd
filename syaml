@@ -39,15 +39,14 @@ def repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
 
 def main() -> None:
     args = parse_args()
-    data = stdin.read()
 
     fold_pt = args.width // 2
     add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)
 
     try:
-        yaml = [*safe_load_all(data)]
+        yaml = [*safe_load_all(stdin)]
     except ScannerError:
-        print(f"ERROR! -- Failed to parse:\n\n{data}", file=stderr)
+        print("parse error!", file=stderr)
         exit(1)
     else:
         new = recur_sort(yaml)
