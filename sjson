@@ -41,3 +41,5 @@ try:
     main()
 except KeyboardInterrupt:
     exit(130)
+except BrokenPipeError:
+    exit(13)
