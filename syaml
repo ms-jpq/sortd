@@ -9,7 +9,7 @@ from yaml import BaseDumper, SafeDumper, add_representer, safe_dump_all, safe_lo
 from yaml.nodes import ScalarNode
 from yaml.scanner import ScannerError
 
-from lib import recur_sort, sig_trap
+from .lib import recur_sort, sig_trap
 
 
 def parse_args() -> Namespace:
