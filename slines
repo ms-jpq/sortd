@@ -3,7 +3,7 @@
 from argparse import ArgumentParser, Namespace
 from signal import SIG_DFL, SIGPIPE, signal
 
-from sortd.lines import dump_lines, load_lines
+from sortd.s_lines import dump_lines, load_lines
 
 
 def parse_args() -> Namespace:

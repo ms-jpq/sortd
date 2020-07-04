@@ -4,7 +4,7 @@ from argparse import ArgumentParser, Namespace
 from shutil import get_terminal_size
 
 from sortd.lib import sig_trap
-from sortd.yaml import dump_yaml, load_yaml
+from sortd.s_yaml import dump_yaml, load_yaml
 
 
 def parse_args() -> Namespace:

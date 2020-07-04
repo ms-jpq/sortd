@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from sortd.lib import sig_trap
-from sortd.toml import dump_toml, load_toml
+from sortd.s_toml import dump_toml, load_toml
 
 
 def main() -> None:

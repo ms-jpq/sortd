@@ -2,8 +2,8 @@
 
 from argparse import ArgumentParser, Namespace
 
-from sortd.json import dump_json, load_json
 from sortd.lib import sig_trap
+from sortd.s_json import dump_json, load_json
 
 
 def parse_args() -> Namespace:
