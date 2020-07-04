@@ -2,13 +2,9 @@
 
 from argparse import ArgumentParser, Namespace
 from shutil import get_terminal_size
-from sys import stderr, stdin, stdout
-from typing import Callable
 
-from sortd.lib import recur_sort, sig_trap
-from yaml import BaseDumper, SafeDumper, add_representer, safe_dump_all, safe_load_all
-from yaml.nodes import ScalarNode
-from yaml.scanner import ScannerError
+from sortd.lib import sig_trap
+from sortd.yaml import dump_yaml, load_yaml
 
 
 def parse_args() -> Namespace:
@@ -19,35 +15,10 @@ def parse_args() -> Namespace:
     return parser.parse_args()
 
 
-def repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
-    def repr_str(dumper: BaseDumper, data: str) -> ScalarNode:
-        style = ">" if len(data) > break_pt else ""
-        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style=style)
-
-    return repr_str
-
-
 def main() -> None:
     args = parse_args()
-
-    fold_pt = args.width // 2
-    add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)
-
-    try:
-        yaml = [*safe_load_all(stdin)]
-    except ScannerError as e:
-        print("Error!", e, sep="\n", file=stderr)
-        exit(1)
-    else:
-        new = recur_sort(yaml)
-        safe_dump_all(
-            new,
-            stdout,
-            allow_unicode=True,
-            explicit_start=True,
-            width=args.width,
-            indent=args.indent,
-        )
+    yaml = load_yaml(width=args.width)
+    dump_yaml(yaml, width=args.width, indent=args.indent)
 
 
 try:

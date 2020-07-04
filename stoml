@@ -1,21 +1,12 @@
 #!/usr/bin/env python3
 
-from sys import stderr, stdin, stdout
-
-from sortd.lib import recur_sort, sig_trap
-from toml import dump, load
-from toml.decoder import TomlDecodeError
+from sortd.lib import sig_trap
+from sortd.toml import dump_toml, load_toml
 
 
 def main() -> None:
-    try:
-        toml = load(stdin)
-    except TomlDecodeError as e:
-        print("Error!", e, sep="\n", file=stderr)
-        exit(1)
-    else:
-        new = recur_sort(toml)
-        dump(new, stdout)
+    toml = load_toml()
+    dump_toml(toml)
 
 
 try:

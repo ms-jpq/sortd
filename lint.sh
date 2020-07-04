@@ -6,7 +6,7 @@ set -o pipefail
 cd "$(dirname "$0")" || exit
 
 
-mypy --ignore-missing-imports -- *.py
+mypy --ignore-missing-imports -- *.py ./sortd/**.py
 
 SCRIPTS=(
   sjson
