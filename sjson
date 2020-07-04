@@ -4,7 +4,7 @@ from argparse import ArgumentParser, Namespace
 from json import JSONDecodeError, dump, load
 from sys import stderr, stdin, stdout
 
-from libs.lib import recur_sort, sig_trap
+from sortd.lib import recur_sort, sig_trap
 
 
 def parse_args() -> Namespace:

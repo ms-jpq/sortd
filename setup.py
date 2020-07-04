@@ -16,7 +16,7 @@ def slurp(path: str) -> str:
 
 setup(
     name="sortd",
-    version="1.0.7",
+    version="1.0.8",
     description="sorting commands for stdin -> stdout",
     long_description=slurp("README.md"),
     long_description_content_type="text/markdown",
@@ -24,5 +24,6 @@ setup(
     author_email="github@bigly.dog",
     url="https://github.com/ms-jpq/sortd",
     install_requires=slurp("requirements.txt").splitlines(),
+    packages=["sortd"],
     scripts=["slines", "sjson", "syaml", "stoml"],
 )

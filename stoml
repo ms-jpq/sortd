@@ -5,7 +5,7 @@ from sys import stderr, stdin, stdout
 from toml import dump, load
 from toml.decoder import TomlDecodeError
 
-from libs.lib import recur_sort, sig_trap
+from sortd.lib import recur_sort, sig_trap
 
 
 def main() -> None:
