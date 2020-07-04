@@ -2,6 +2,7 @@ FROM python:latest
 
 
 COPY . /
+RUN pip install -U mypy
 RUN pip install -U -r requirements.txt
 RUN ./lint.sh
 RUN ./slines < ./tests/txt.txt
