@@ -5,11 +5,10 @@ from shutil import get_terminal_size
 from sys import stderr, stdin, stdout
 from typing import Callable
 
+from sortd.lib import recur_sort, sig_trap
 from yaml import BaseDumper, SafeDumper, add_representer, safe_dump_all, safe_load_all
 from yaml.nodes import ScalarNode
 from yaml.scanner import ScannerError
-
-from sortd.lib import recur_sort, sig_trap
 
 
 def parse_args() -> Namespace:
@@ -36,8 +35,8 @@ def main() -> None:
 
     try:
         yaml = [*safe_load_all(stdin)]
-    except ScannerError:
-        print("parse error!", file=stderr)
+    except ScannerError as e:
+        print("Error!", e, sep="\n", file=stderr)
         exit(1)
     else:
         new = recur_sort(yaml)

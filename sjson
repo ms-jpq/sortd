@@ -17,8 +17,8 @@ def main() -> None:
     args = parse_args()
     try:
         json = load(stdin)
-    except JSONDecodeError:
-        print("parse error!", file=stderr)
+    except JSONDecodeError as e:
+        print("Error!", e, sep="\n", file=stderr)
         exit(1)
     else:
         new = recur_sort(json)

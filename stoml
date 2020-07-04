@@ -2,17 +2,16 @@
 
 from sys import stderr, stdin, stdout
 
+from sortd.lib import recur_sort, sig_trap
 from toml import dump, load
 from toml.decoder import TomlDecodeError
-
-from sortd.lib import recur_sort, sig_trap
 
 
 def main() -> None:
     try:
         toml = load(stdin)
-    except TomlDecodeError:
-        print("parse error!", file=stderr)
+    except TomlDecodeError as e:
+        print("Error!", e, sep="\n", file=stderr)
         exit(1)
     else:
         new = recur_sort(toml)
