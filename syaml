@@ -1,24 +1,15 @@
 #!/usr/bin/env python3
 
 from argparse import ArgumentParser, Namespace
-from locale import strxfrm
 from shutil import get_terminal_size
-from signal import SIG_DFL, SIGPIPE, signal
 from sys import stderr, stdin, stdout
-from typing import Any, Callable
+from typing import Callable
 
 from yaml import BaseDumper, SafeDumper, add_representer, safe_dump_all, safe_load_all
 from yaml.nodes import ScalarNode
 from yaml.scanner import ScannerError
 
-
-def recur_sort(data: Any) -> Any:
-    if type(data) is dict:
-        return {k: recur_sort(data[k]) for k in sorted(data, key=strxfrm)}
-    elif type(data) is list:
-        return [recur_sort(el) for el in data]
-    else:
-        return data
+from lib import recur_sort, sig_trap
 
 
 def parse_args() -> Namespace:
@@ -61,7 +52,7 @@ def main() -> None:
 
 
 try:
-    signal(SIGPIPE, SIG_DFL)
+    sig_trap()
     main()
 except KeyboardInterrupt:
     exit(130)
