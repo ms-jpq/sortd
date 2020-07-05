@@ -18,9 +18,7 @@ def repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
     return repr_str
 
 
-def load_yaml(*, width: int) -> Any:
-    fold_pt = width // 2
-    add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)
+def load_yaml() -> Any:
     try:
         yaml = [*safe_load_all(stdin)]
         return recur_sort(yaml)
@@ -30,6 +28,8 @@ def load_yaml(*, width: int) -> Any:
 
 
 def dump_yaml(yaml: Any, *, width: int, indent: int) -> None:
+    fold_pt = width // 2
+    add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)
     safe_dump_all(
         yaml,
         stdout,

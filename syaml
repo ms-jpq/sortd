@@ -17,7 +17,7 @@ def parse_args() -> Namespace:
 
 def main() -> None:
     args = parse_args()
-    yaml = load_yaml(width=args.width)
+    yaml = load_yaml()
     dump_yaml(yaml, width=args.width, indent=args.indent)
 
 
