@@ -21,10 +21,11 @@ def repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
 def load_yaml() -> Any:
     try:
         yaml = [*safe_load_all(stdin)]
-        return recur_sort(yaml)
     except ScannerError as e:
         print("Error!", e, sep="\n", file=stderr)
         exit(1)
+    else:
+        return recur_sort(yaml)
 
 
 def dump_yaml(yaml: Any, *, width: int, indent: int) -> None:

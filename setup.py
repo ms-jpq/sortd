@@ -16,7 +16,7 @@ def slurp(path: str) -> str:
 
 setup(
     name="sortd",
-    version="1.0.11",
+    version="1.0.12",
     description="sorting commands for stdin -> stdout",
     long_description=slurp("README.md"),
     long_description_content_type="text/markdown",

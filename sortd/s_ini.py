@@ -1,5 +1,5 @@
-from configparser import ConfigParser
-from sys import stdin, stdout
+from configparser import ConfigParser, ParsingError
+from sys import stderr, stdin, stdout
 from typing import Any
 
 from .lib import recur_sort
@@ -7,9 +7,14 @@ from .lib import recur_sort
 
 def load_ini() -> Any:
     parser = ConfigParser()
-    parser.read_file(stdin)
-    ini = {**parser}
-    return recur_sort(ini)
+    try:
+        parser.read_file(stdin)
+    except ParsingError as e:
+        print("Error!", e, sep="\n", file=stderr)
+        exit(1)
+    else:
+        ini = {**parser}
+        return recur_sort(ini)
 
 
 def dump_ini(ini: Any) -> None:
