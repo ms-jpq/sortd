@@ -15,4 +15,4 @@ def load_json() -> Any:
 
 
 def dump_json(json: Any, *, indent: int) -> None:
-    dump(json, stdout, ensure_ascii=False, indent=indent)
+    dump(json, stdout, ensure_ascii=False, check_circular=False, indent=indent)
