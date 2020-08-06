@@ -5,7 +5,7 @@ from typing import Any
 from .lib import recur_sort
 
 
-def load_ini() -> Any:
+def load_cfg() -> Any:
     parser = ConfigParser()
     try:
         parser.read_file(stdin)
@@ -17,7 +17,7 @@ def load_ini() -> Any:
         return recur_sort(ini)
 
 
-def dump_ini(ini: Any) -> None:
+def dump_cfg(cfg: Any) -> None:
     parser = ConfigParser()
-    parser.read_dict(ini)
+    parser.read_dict(cfg)
     parser.write(stdout)
