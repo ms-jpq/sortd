@@ -24,6 +24,6 @@ setup(
     author_email="github@bigly.dog",
     url="https://github.com/ms-jpq/sortd",
     install_requires=slurp("requirements.txt").splitlines(),
-    packages=["sortd"],
-    scripts=["slines", "sjson", "syaml", "stoml"],
+    packages=("sortd",),
+    scripts=("scfg", "slines", "sjson", "syaml", "stoml"),
 )

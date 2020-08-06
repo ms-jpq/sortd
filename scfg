@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from sortd.lib import sig_trap
-from sortd.s_ini import dump_ini, load_ini
+from sortd.s_cfg import dump_ini, load_ini
 
 
 def main() -> None:
