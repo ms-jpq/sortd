@@ -9,6 +9,7 @@ cd "$(dirname "$0")" || exit
 mypy --ignore-missing-imports -- *.py ./sortd/**.py
 
 SCRIPTS=(
+  scfg
   sjson
   slines
   stoml
