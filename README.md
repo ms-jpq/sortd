@@ -10,6 +10,7 @@ Collection of `stdin` -> `stdout` sorting commands
 | sjson   | json   |
 | syaml   | yaml   |
 | stoml   | toml   |
+| scfg    | cfg    |
 
 ## [Install](https://pypi.org/project/sortd)
 
