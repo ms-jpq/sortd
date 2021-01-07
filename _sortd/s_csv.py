@@ -33,17 +33,12 @@ def p_csv(dialect: Optional[str]) -> None:
             header = next(r)
             mapping = sorted(enumerate(header), key=_keyby)
 
-            w.writerow(header)
-            while True:
-                try:
-                    old_row = next(r)
-                except StopIteration:
-                    break
-                else:
-                    new_row: MutableSequence[str] = []
-                    for old_idx, _ in mapping:
-                        new_row.append(old_row[old_idx])
-                    w.writerow(new_row)
+            w.writerow(name for _, name in mapping)
+            for row in r:
+                new_row: MutableSequence[str] = []
+                for idx, _ in mapping:
+                    new_row.append(row[idx])
+                w.writerow(new_row)
 
         except CSVErr as e:
             print("Error!", e, sep=linesep, file=stderr)
