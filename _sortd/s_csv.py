@@ -35,10 +35,7 @@ def p_csv(dialect: Optional[str]) -> None:
 
             w.writerow(name for _, name in mapping)
             for row in r:
-                new_row: MutableSequence[str] = []
-                for idx, _ in mapping:
-                    new_row.append(row[idx])
-                w.writerow(new_row)
+                w.writerow(row[idx] for idx, _ in mapping)
 
         except CSVErr as e:
             print("Error!", e, sep=linesep, file=stderr)
