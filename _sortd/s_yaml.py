@@ -12,7 +12,10 @@ from .lib import recur_sort
 def repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
     def repr_str(dumper: BaseDumper, data: str) -> ScalarNode:
         style = ">" if len(data) > break_pt else ""
-        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style=style)
+        node: ScalarNode = dumper.represent_scalar(  # type: ignore
+            "tag:yaml.org,2002:str", data, style=style
+        )
+        return node
 
     return repr_str
 
@@ -26,7 +29,7 @@ def p_yaml(width: int, indent: int) -> None:
     else:
         yaml = recur_sort(data)
         fold_pt = width // 2
-        add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)
+        add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)  # type: ignore
         safe_dump_all(
             yaml,
             stdout,
