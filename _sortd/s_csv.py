@@ -1,11 +1,10 @@
-from csv import Dialect
 from csv import Error as CSVErr
 from csv import Sniffer, list_dialects, reader, writer
 from io import StringIO
 from locale import strxfrm
 from os import linesep
 from sys import stderr, stdin, stdout
-from typing import MutableSequence, Optional, Tuple
+from typing import Optional, Tuple
 
 DIALECTS = list_dialects()
 
