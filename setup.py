@@ -10,7 +10,7 @@ package_data = {pkg: ("py.typed",) for pkg in packages}
 
 setup(
     name="sortd",
-    version="1.1.4",
+    version="1.1.5",
     install_requires=Path("requirements.txt").read_text().splitlines(),
     description="sorting commands for stdin -> stdout",
     long_description=Path("README.md").read_text(),

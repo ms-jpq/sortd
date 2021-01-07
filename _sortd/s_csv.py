@@ -33,9 +33,7 @@ def p_csv(dialect: Optional[str]) -> None:
             mapping = sorted(enumerate(header), key=_keyby)
 
             w.writerow(name for _, name in mapping)
-            for row in r:
-                w.writerow(row[idx] for idx, _ in mapping)
-
+            w.writerows((row[idx] for idx, _ in mapping) for row in r)
         except CSVErr as e:
             print("Error!", e, sep=linesep, file=stderr)
             exit(1)
