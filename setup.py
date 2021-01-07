@@ -1,29 +1,24 @@
 #!/usr/bin/env python3
 
-from os import chdir
-from os.path import dirname
+from pathlib import Path
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
-__dir__ = dirname(__file__)
-chdir(__dir__)
-
-
-def slurp(path: str) -> str:
-    with open(path) as fd:
-        return fd.read()
+packages = find_packages(exclude=("tests*",))
+package_data = {pkg: ("py.typed",) for pkg in packages}
 
 
 setup(
     name="sortd",
     version="1.0.13",
+    install_requires=Path("requirements.txt").read_text().splitlines(),
     description="sorting commands for stdin -> stdout",
-    long_description=slurp("README.md"),
+    long_description=Path("README.md").read_text(),
     long_description_content_type="text/markdown",
     author="ms-jpq",
     author_email="github@bigly.dog",
     url="https://github.com/ms-jpq/sortd",
-    install_requires=slurp("requirements.txt").splitlines(),
-    packages=("sortd",),
-    scripts=("scfg", "slines", "sjson", "syaml", "stoml"),
+    packages=packages,
+    package_data=package_data,
+    scripts=("sortd",),
 )

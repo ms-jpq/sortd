@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
-
+from os import linesep
 from sys import stderr, stdin, stdout
-from typing import Any, Callable
+from typing import Callable
 
 from yaml import BaseDumper, SafeDumper, add_representer, safe_dump_all, safe_load_all
 from yaml.nodes import ScalarNode
@@ -18,24 +17,21 @@ def repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
     return repr_str
 
 
-def load_yaml() -> Any:
+def p_yaml(width: int, indent: int) -> None:
     try:
-        yaml = [*safe_load_all(stdin)]
+        data = safe_load_all(stdin)
     except ScannerError as e:
-        print("Error!", e, sep="\n", file=stderr)
+        print("Error!", e, sep=linesep, file=stderr)
         exit(1)
     else:
-        return recur_sort(yaml)
-
-
-def dump_yaml(yaml: Any, *, width: int, indent: int) -> None:
-    fold_pt = width // 2
-    add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)
-    safe_dump_all(
-        yaml,
-        stdout,
-        allow_unicode=True,
-        explicit_start=True,
-        width=width,
-        indent=indent,
-    )
+        yaml = recur_sort(data)
+        fold_pt = width // 2
+        add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)
+        safe_dump_all(
+            yaml,
+            stdout,
+            allow_unicode=True,
+            explicit_start=True,
+            width=width,
+            indent=indent,
+        )

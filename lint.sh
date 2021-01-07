@@ -3,20 +3,28 @@
 set -eu
 set -o pipefail
 
-cd "$(dirname "$0")" || exit
+
+cd "$(dirname "$0")" || exit 1
 
 
-mypy --ignore-missing-imports -- *.py ./sortd/**.py
+readarray -t -d $'\0' TRACKED < <(git ls-files --exclude-standard -z)
+readarray -t -d $'\0' UNTRACKED < <(git ls-files --exclude-standard --others -z)
 
-SCRIPTS=(
-  scfg
-  sjson
-  slines
-  stoml
-  syaml
-)
-
-for script in "${SCRIPTS[@]}"
+ALL_FILES=("${TRACKED[@]}" "${UNTRACKED[@]}")
+PYTHON_FILES=()
+for FILE in "${ALL_FILES[@]}";
 do
-  mypy --ignore-missing-imports -- "$script"
+  case "$FILE" in
+    *.py)
+      if [[ -f "$FILE" ]]
+      then
+        PYTHON_FILES+=("$PWD/$FILE")
+      fi
+      ;;
+    *)
+      ;;
+  esac
 done
+
+
+mypy -- "${PYTHON_FILES[@]}"

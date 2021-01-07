@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+from argparse import ArgumentParser, Namespace
+from enum import Enum, auto
+from shutil import get_terminal_size
+from signal import SIG_DFL, SIGPIPE, signal
+
+from _sortd.s_cfg import p_cfg
+from _sortd.s_json import p_json
+from _sortd.s_lines import p_lines
+from _sortd.s_toml import p_toml
+from _sortd.s_yaml import p_yaml
+
+INDENT = 2
+
+
+class Parsers(Enum):
+    cfg = auto()
+    json = auto()
+    lines = auto()
+    toml = auto()
+    yaml = auto()
+
+
+def parse_args() -> Namespace:
+    cols, _ = get_terminal_size((80, -1))
+
+    parser = ArgumentParser()
+    sub_parsers = parser.add_subparsers(dest="type", required=True)
+
+    s_cfg = sub_parsers.add_parser(Parsers.cfg.name)
+
+    p_json = sub_parsers.add_parser(Parsers.json.name)
+    p_json.add_argument("-i", "--indent", type=int, default=INDENT)
+
+    p_lines = sub_parsers.add_parser(Parsers.lines.name)
+    p_lines.add_argument("--read0", action="store_true")
+    p_lines.add_argument("--print0", action="store_true")
+
+    p_toml = sub_parsers.add_parser(Parsers.toml.name)
+
+    p_yaml = sub_parsers.add_parser(Parsers.yaml.name)
+    p_yaml.add_argument("-i", "--indent", type=int, default=INDENT)
+    p_yaml.add_argument("-w", "--width", type=int, default=cols)
+
+    return parser.parse_args()
+
+
+def main() -> None:
+    signal(SIGPIPE, SIG_DFL)
+    args = parse_args()
+
+    parser = Parsers(args.parser)
+    if parser is Parsers.cfg:
+        p_cfg()
+    elif parser is Parsers.json:
+        p_json(indent=args.indent)
+    elif parser is Parsers.lines:
+        p_lines(read0=args.read0, print0=args.print0)
+    elif parser is Parsers.toml:
+        p_toml()
+    elif parser is Parsers.yaml:
+        p_yaml(width=args.width, indent=args.indent)
+    else:
+        assert False
+
+
+try:
+    main()
+except KeyboardInterrupt:
+    exit(130)
+except BrokenPipeError:
+    exit(13)
