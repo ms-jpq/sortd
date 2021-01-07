@@ -2,10 +2,12 @@
 
 from argparse import ArgumentParser, Namespace
 from enum import Enum, auto
+from operator import attrgetter
 from shutil import get_terminal_size
 from signal import SIG_DFL, SIGPIPE, signal
 
 from _sortd.s_cfg import p_cfg
+from _sortd.s_csv import DIALECTS, p_csv
 from _sortd.s_json import p_json
 from _sortd.s_lines import p_lines
 from _sortd.s_toml import p_toml
@@ -16,6 +18,7 @@ INDENT = 2
 
 class Parsers(Enum):
     cfg = auto()
+    csv = auto()
     json = auto()
     lines = auto()
     toml = auto()
@@ -29,6 +32,9 @@ def parse_args() -> Namespace:
     sub_parsers = parser.add_subparsers(dest="type", required=True)
 
     s_cfg = sub_parsers.add_parser(Parsers.cfg.name)
+
+    s_csv = sub_parsers.add_parser(Parsers.csv.name)
+    s_csv.add_argument("-d", "--dialect", choices=DIALECTS, default=None)
 
     p_json = sub_parsers.add_parser(Parsers.json.name)
     p_json.add_argument("-i", "--indent", type=int, default=INDENT)
@@ -50,9 +56,11 @@ def main() -> None:
     signal(SIGPIPE, SIG_DFL)
     args = parse_args()
 
-    parser = Parsers(args.parser)
+    parser = attrgetter(args.type)(Parsers)
     if parser is Parsers.cfg:
         p_cfg()
+    elif parser is Parsers.csv:
+        p_csv(dialect=args.dialect)
     elif parser is Parsers.json:
         p_json(indent=args.indent)
     elif parser is Parsers.lines:
