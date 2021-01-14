@@ -29,7 +29,7 @@ def parse_args() -> Namespace:
     cols, _ = get_terminal_size((80, -1))
 
     parser = ArgumentParser()
-    sub_parsers = parser.add_subparsers(dest="type", required=True)
+    sub_parsers = parser.add_subparsers(dest="format", required=True)
 
     s_cfg = sub_parsers.add_parser(Parsers.cfg.name)
 
@@ -56,7 +56,7 @@ def main() -> None:
     signal(SIGPIPE, SIG_DFL)
     args = parse_args()
 
-    parser = attrgetter(args.type)(Parsers)
+    parser = attrgetter(args.format)(Parsers)
     if parser is Parsers.cfg:
         p_cfg()
     elif parser is Parsers.csv:
