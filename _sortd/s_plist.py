@@ -16,4 +16,4 @@ def p_plist() -> None:
         exit(1)
     else:
         plist = recur_sort(data)
-        dump(plist, stdout.buffer)
+        dump(plist, stdout.buffer, sort_keys=False)
