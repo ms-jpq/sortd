@@ -10,6 +10,7 @@ from _sortd.s_cfg import p_cfg
 from _sortd.s_csv import DIALECTS, p_csv
 from _sortd.s_json import p_json
 from _sortd.s_lines import p_lines
+from _sortd.s_plist import p_plist
 from _sortd.s_toml import p_toml
 from _sortd.s_yaml import p_yaml
 
@@ -21,6 +22,7 @@ class Parsers(Enum):
     csv = auto()
     json = auto()
     lines = auto()
+    plist = auto()
     toml = auto()
     yaml = auto()
 
@@ -42,6 +44,8 @@ def parse_args() -> Namespace:
     p_lines = sub_parsers.add_parser(Parsers.lines.name)
     p_lines.add_argument("--read0", action="store_true")
     p_lines.add_argument("--print0", action="store_true")
+
+    p_plist = sub_parsers.add_parser(Parsers.plist.name)
 
     p_toml = sub_parsers.add_parser(Parsers.toml.name)
 
@@ -65,6 +69,8 @@ def main() -> None:
         p_json(indent=args.indent)
     elif parser is Parsers.lines:
         p_lines(read0=args.read0, print0=args.print0)
+    elif parser is Parsers.plist:
+        p_plist()
     elif parser is Parsers.toml:
         p_toml()
     elif parser is Parsers.yaml:

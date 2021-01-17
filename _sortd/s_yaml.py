@@ -6,6 +6,7 @@ from yaml import BaseDumper, SafeDumper, add_representer, safe_dump_all, safe_lo
 from yaml.nodes import ScalarNode
 from yaml.scanner import ScannerError
 
+from .consts import ERROR
 from .lib import recur_sort
 
 
@@ -24,7 +25,7 @@ def p_yaml(width: int, indent: int) -> None:
     try:
         data = safe_load_all(stdin)
     except ScannerError as e:
-        print("Error!", e, sep=linesep, file=stderr)
+        print(ERROR, e, sep=linesep, file=stderr)
         exit(1)
     else:
         yaml = recur_sort(data)

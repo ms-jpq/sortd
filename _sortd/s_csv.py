@@ -6,6 +6,8 @@ from os import linesep
 from sys import stderr, stdin, stdout
 from typing import Optional, Tuple
 
+from .consts import ERROR
+
 DIALECTS = list_dialects()
 
 
@@ -35,5 +37,5 @@ def p_csv(dialect: Optional[str]) -> None:
             w.writerow(name for _, name in mapping)
             w.writerows((row[idx] for idx, _ in mapping) for row in r)
         except CSVErr as e:
-            print("Error!", e, sep=linesep, file=stderr)
+            print(ERROR, e, sep=linesep, file=stderr)
             exit(1)
