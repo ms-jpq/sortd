@@ -10,7 +10,7 @@ from .consts import ERROR
 from .lib import recur_sort
 
 
-def repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
+def _repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
     def repr_str(dumper: BaseDumper, data: str) -> ScalarNode:
         style = ">" if len(data) > break_pt else ""
         node: ScalarNode = dumper.represent_scalar(  # type: ignore
@@ -30,7 +30,7 @@ def p_yaml(width: int, indent: int) -> None:
     else:
         yaml = recur_sort(data)
         fold_pt = width // 2
-        add_representer(str, repr_str(fold_pt), Dumper=SafeDumper)  # type: ignore
+        add_representer(str, _repr_str(fold_pt), Dumper=SafeDumper)  # type: ignore
         safe_dump_all(
             yaml,
             stdout,
