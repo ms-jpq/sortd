@@ -2,16 +2,16 @@ from os import linesep
 from sys import stderr, stdin, stdout
 from typing import Callable
 
-from yaml import BaseDumper, SafeDumper, add_representer, safe_dump_all, safe_load_all
-from yaml.nodes import ScalarNode
+from yaml import SafeDumper, add_representer, safe_dump_all, safe_load_all
+from yaml.nodes import Node, ScalarNode
 from yaml.scanner import ScannerError
 
 from .consts import ERROR
 from .lib import recur_sort
 
 
-def _repr_str(break_pt: int) -> Callable[[BaseDumper, str], ScalarNode]:
-    def repr_str(dumper: BaseDumper, data: str) -> ScalarNode:
+def _repr_str(break_pt: int) -> Callable[[SafeDumper, str], Node]:
+    def repr_str(dumper: SafeDumper, data: str) -> ScalarNode:
         style = ">" if len(data) > break_pt else ""
         node: ScalarNode = dumper.represent_scalar(
             "tag:yaml.org,2002:str", data, style=style
@@ -39,3 +39,4 @@ def p_yaml(width: int, indent: int) -> None:
             width=width,
             indent=indent,
         )
+
