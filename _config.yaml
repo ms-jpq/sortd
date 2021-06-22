@@ -1,8 +1,6 @@
+---
 title: sortd
 
 showcase: True
-
-desc: >-
-   sorting commands for stdin -> stdout
 
 images: []
