@@ -7,7 +7,7 @@ from .lib import recur_sort
 
 
 def p_cfg() -> None:
-    parser = ConfigParser()
+    parser = ConfigParser(allow_no_value=True)
     try:
         parser.read_file(stdin)
     except ParsingError as e:
