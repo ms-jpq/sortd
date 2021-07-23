@@ -36,7 +36,7 @@ def parse_args() -> Namespace:
 
     s_csv = sub_parsers.add_parser(Parsers.csv.name)
     s_csv.add_argument("-d", "--dialect", choices=DIALECTS, default=None)
-    s_csv.add_argument("--right-pad", action="store_true")
+    s_csv.add_argument("-p", "--padding", action="store_true")
 
     p_json = sub_parsers.add_parser(Parsers.json.name)
     p_json.add_argument("-i", "--indent", type=int, default=INDENT)
@@ -65,7 +65,7 @@ def main() -> int:
         return p_cfg()
 
     elif parser is Parsers.csv:
-        return p_csv(dialect=args.dialect, right_pad=args.right_pad)
+        return p_csv(dialect=args.dialect, padding=args.padding)
 
     elif parser is Parsers.json:
         return p_json(indent=args.indent)

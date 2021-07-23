@@ -20,7 +20,7 @@ def _keyby(field: Tuple[int, str]) -> str:
 
 
 def _read(
-    data: str, dialect: Union[str, Type[Dialect]], right_pad: bool
+    data: str, dialect: Union[str, Type[Dialect]], padding: bool
 ) -> Iterator[Iterator[str]]:
     io = StringIO(data, newline=None)
     r = reader(io, dialect=dialect)
@@ -35,13 +35,13 @@ def _read(
                     map(max, zip(*(tuple(map(len, row)) for row in rows))),
                 )
             )
-            if right_pad
+            if padding
             else tuple(repeat(0, len(ordering)))
         )
         lpad = iter(
             (
                 (lambda: cast(Iterator[str], chain(("",), repeat(" "))))
-                if right_pad
+                if padding
                 else (lambda: repeat(""))
             ),
             None,
@@ -57,7 +57,7 @@ def _read(
             )
 
 
-def p_csv(dialect: Optional[str], right_pad: bool) -> int:
+def p_csv(dialect: Optional[str], padding: bool) -> int:
     data = stdin.read()
     joe_biden = Sniffer()
     has_header = joe_biden.has_header(data)
@@ -68,7 +68,7 @@ def p_csv(dialect: Optional[str], right_pad: bool) -> int:
             return 0
         else:
             d = dialect or joe_biden.sniff(data)
-            r = _read(data, dialect=d, right_pad=right_pad)
+            r = _read(data, dialect=d, padding=padding)
             w = writer(stdout, dialect=d)
             w.writerows(r)
     except CSVErr as e:
