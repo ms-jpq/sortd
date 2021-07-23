@@ -8,13 +8,14 @@ from .consts import ERROR
 from .lib import log, recur_sort
 
 
-def p_toml() -> None:
+def p_toml() -> int:
     try:
         data = load(stdin)
     except TomlDecodeError as e:
         log.critical("%s", f"{ERROR}{linesep}{e}")
-        exit(1)
+        return 1
     else:
         toml = recur_sort(data)
         dump(toml, stdout)
+        return 0
 

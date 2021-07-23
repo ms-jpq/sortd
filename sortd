@@ -2,7 +2,6 @@
 
 from argparse import ArgumentParser, Namespace
 from enum import Enum, auto
-from operator import attrgetter
 from shutil import get_terminal_size
 from signal import SIG_DFL, SIGPIPE, signal
 
@@ -37,6 +36,7 @@ def parse_args() -> Namespace:
 
     s_csv = sub_parsers.add_parser(Parsers.csv.name)
     s_csv.add_argument("-d", "--dialect", choices=DIALECTS, default=None)
+    s_csv.add_argument("--right-pad", action="store_true")
 
     p_json = sub_parsers.add_parser(Parsers.json.name)
     p_json.add_argument("-i", "--indent", type=int, default=INDENT)
@@ -56,32 +56,40 @@ def parse_args() -> Namespace:
     return parser.parse_args()
 
 
-def main() -> None:
+def main() -> int:
     signal(SIGPIPE, SIG_DFL)
     args = parse_args()
 
-    parser = attrgetter(args.format)(Parsers)
+    parser = Parsers[args.format]
     if parser is Parsers.cfg:
-        p_cfg()
+        return p_cfg()
+
     elif parser is Parsers.csv:
-        p_csv(dialect=args.dialect)
+        return p_csv(dialect=args.dialect, right_pad=args.right_pad)
+
     elif parser is Parsers.json:
-        p_json(indent=args.indent)
+        return p_json(indent=args.indent)
+
     elif parser is Parsers.lines:
-        p_lines(read0=args.read0, print0=args.print0)
+        return p_lines(read0=args.read0, print0=args.print0)
+
     elif parser is Parsers.plist:
-        p_plist()
+        return p_plist()
+
     elif parser is Parsers.toml:
-        p_toml()
+        return p_toml()
+
     elif parser is Parsers.yaml:
-        p_yaml(width=args.width, indent=args.indent)
+        return p_yaml(width=args.width, indent=args.indent)
+
     else:
         assert False
 
 
 try:
-    main()
+    exit(main())
 except KeyboardInterrupt:
     exit(130)
 except BrokenPipeError:
     exit(13)
+

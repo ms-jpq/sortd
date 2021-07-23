@@ -6,16 +6,17 @@ from .consts import ERROR
 from .lib import log, recur_sort
 
 
-def p_cfg() -> None:
+def p_cfg() -> int:
     parser = ConfigParser(allow_no_value=True)
     try:
         parser.read_file(stdin)
     except ParsingError as e:
         log.critical("%s", f"{ERROR}{linesep}{e}")
-        exit(1)
+        return 1
     else:
         cfg = recur_sort({**parser})
         parser = ConfigParser()
         parser.read_dict(cfg)
         parser.write(stdout)
+        return 0
 

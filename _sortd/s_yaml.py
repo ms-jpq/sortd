@@ -21,12 +21,12 @@ def _repr_str(break_pt: int) -> Callable[[SafeDumper, str], Node]:
     return repr_str
 
 
-def p_yaml(width: int, indent: int) -> None:
+def p_yaml(width: int, indent: int) -> int:
     try:
         data = safe_load_all(stdin)
     except ScannerError as e:
         log.critical("%s", f"{ERROR}{linesep}{e}")
-        exit(1)
+        return 1
     else:
         yaml = recur_sort(data)
         fold_pt = width // 2
@@ -39,4 +39,5 @@ def p_yaml(width: int, indent: int) -> None:
             width=width,
             indent=indent,
         )
+        return 0
 
