@@ -18,8 +18,8 @@ def _keyby(field: Tuple[int, str]) -> str:
 
 
 def p_csv(dialect: Optional[str]) -> None:
-    joe_biden = Sniffer()
     data = stdin.read()
+    joe_biden = Sniffer()
     has_header = joe_biden.has_header(data)
 
     if not has_header:
