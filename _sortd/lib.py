@@ -1,6 +1,10 @@
 from collections.abc import ByteString, Iterable, Mapping
 from locale import strxfrm
+from logging import StreamHandler, getLogger
 from typing import Any
+
+log = getLogger()
+log.addHandler(StreamHandler())
 
 
 def recur_sort(data: Any) -> Any:
@@ -10,3 +14,4 @@ def recur_sort(data: Any) -> Any:
         return tuple(recur_sort(el) for el in data)
     else:
         return data
+

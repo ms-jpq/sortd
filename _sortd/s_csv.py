@@ -3,10 +3,11 @@ from csv import Sniffer, list_dialects, reader, writer
 from io import StringIO
 from locale import strxfrm
 from os import linesep
-from sys import stderr, stdin, stdout
+from sys import stdin, stdout
 from typing import Optional, Tuple
 
 from .consts import ERROR
+from .lib import log
 
 DIALECTS = list_dialects()
 
@@ -37,5 +38,6 @@ def p_csv(dialect: Optional[str]) -> None:
             w.writerow(name for _, name in mapping)
             w.writerows((row[idx] for idx, _ in mapping) for row in r)
         except CSVErr as e:
-            print(ERROR, e, sep=linesep, file=stderr)
+            log.critical("%s", f"{ERROR}{linesep}{e}")
             exit(1)
+

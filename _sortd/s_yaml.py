@@ -1,5 +1,5 @@
 from os import linesep
-from sys import stderr, stdin, stdout
+from sys import stdin, stdout
 from typing import Callable
 
 from yaml import SafeDumper, add_representer, safe_dump_all, safe_load_all
@@ -7,7 +7,7 @@ from yaml.nodes import Node, ScalarNode
 from yaml.scanner import ScannerError
 
 from .consts import ERROR
-from .lib import recur_sort
+from .lib import log, recur_sort
 
 
 def _repr_str(break_pt: int) -> Callable[[SafeDumper, str], Node]:
@@ -25,7 +25,7 @@ def p_yaml(width: int, indent: int) -> None:
     try:
         data = safe_load_all(stdin)
     except ScannerError as e:
-        print(ERROR, e, sep=linesep, file=stderr)
+        log.critical("%s", f"{ERROR}{linesep}{e}")
         exit(1)
     else:
         yaml = recur_sort(data)

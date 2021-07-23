@@ -9,3 +9,4 @@ def p_lines(read0: bool, print0: bool) -> None:
     lines = stdin.read().split(r_sep)
     lines.sort(key=strxfrm)
     print(*lines, sep=w_sep, end="")
+
