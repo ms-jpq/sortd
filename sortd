@@ -1,4 +1,3 @@
 #!/usr/bin/env python3
 
-from _sortd import __main__
-
+from sortd_lib import __main__
