@@ -3,7 +3,7 @@ from locale import strxfrm
 from logging import StreamHandler, getLogger
 from typing import Any
 
-log = getLogger()
+log = getLogger(__name__)
 log.addHandler(StreamHandler())
 
 
@@ -14,4 +14,3 @@ def recur_sort(data: Any) -> Any:
         return tuple(recur_sort(el) for el in data)
     else:
         return data
-
