@@ -12,7 +12,12 @@ from .lib import log, recur_sort
 
 def _repr_str(break_pt: int) -> Callable[[SafeDumper, str], Node]:
     def repr_str(dumper: SafeDumper, data: str) -> ScalarNode:
-        style = ">" if len(data) > break_pt else ""
+        if len(data.splitlines()) > 1:
+            style = "|"
+        elif len(data) > break_pt:
+            style = ">"
+        else:
+            style = ""
         node: ScalarNode = dumper.represent_scalar(
             "tag:yaml.org,2002:str", data, style=style
         )
@@ -40,4 +45,3 @@ def p_yaml(width: int, indent: int) -> int:
             indent=indent,
         )
         return 0
-
