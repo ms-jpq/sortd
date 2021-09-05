@@ -39,6 +39,7 @@ def p_yaml(width: int, indent: int) -> int:
         safe_dump_all(
             yaml,
             stdout,
+            sort_keys=False,
             allow_unicode=True,
             explicit_start=True,
             width=width,
