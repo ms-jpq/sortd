@@ -7,7 +7,7 @@ from .lib import log, recur_sort
 
 
 def p_cfg() -> int:
-    parser = ConfigParser(allow_no_value=True)
+    parser = ConfigParser(allow_no_value=True, interpolation=None)
     try:
         parser.read_file(stdin)
     except ParsingError as e:
@@ -19,4 +19,3 @@ def p_cfg() -> int:
         parser.read_dict(cfg)
         parser.write(stdout)
         return 0
-
