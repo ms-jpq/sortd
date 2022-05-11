@@ -1,4 +1,4 @@
-from configparser import RawConfigParser, ParsingError
+from configparser import ParsingError, RawConfigParser
 from os import linesep
 from sys import stdin, stdout
 
@@ -6,8 +6,13 @@ from .consts import ERROR
 from .lib import log, recur_sort
 
 
+class _Parser(RawConfigParser):
+    def optionxform(self, optionstr: str) -> str:
+        return optionstr
+
+
 def p_cfg() -> int:
-    parser = RawConfigParser(allow_no_value=True, strict=False, interpolation=None)
+    parser = _Parser(allow_no_value=True, strict=False, interpolation=None)
     try:
         parser.read_file(stdin)
     except ParsingError as e:
@@ -15,7 +20,7 @@ def p_cfg() -> int:
         return 1
     else:
         cfg = recur_sort({**parser})
-        parser = RawConfigParser()
+        parser = _Parser()
         parser.read_dict(cfg)
         parser.write(stdout)
         return 0
