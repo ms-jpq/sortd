@@ -4,7 +4,7 @@ name: Release
 on:
   push:
     paths:
-      - "setup.py"
+      - "pyproject.toml"
 
 jobs:
   release:
@@ -17,21 +17,43 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v3
 
-      - name: Pip Packages
-        run: pip install -U mypy setuptools wheel types-PyYAML types-toml
+      - name: Install Pip Packages
+        shell: python
+        run: |-
+          from itertools import chain
+          from os import execl
+          from sys import executable
 
-      - name: Pip Packages 2
-        run: pip install -U -r requirements.txt
+          from tomllib import load
+
+          with open("pyproject.toml", "rb") as fd:
+              toml = load(fd)
+          project = toml["project"]
+          execl(
+              executable,
+              executable,
+              "-m",
+              "pip",
+              "install",
+              "--upgrade",
+              "--",
+              *project["dependencies"],
+              *chain.from_iterable(project["optional-dependencies"].values()),
+          )
 
       - name: Lint
         run: mypy -- .
 
-      - name: Build
-        run: ./setup.py sdist bdist_wheel
+      - name: Release
+        shell: python
+        run: |-
+          from setuptools import setup
+          from sys import argv
+          argv.extend(("sdist", "bdist_wheel"))
+          setup()
 
       - name: Publish PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
-

@@ -2,6 +2,7 @@ from argparse import ArgumentParser, Namespace
 from enum import Enum, auto
 from shutil import get_terminal_size
 from signal import SIG_DFL, SIGPIPE, signal
+from typing import NoReturn
 
 from .consts import INDENT
 from .s_cfg import p_cfg
@@ -53,7 +54,7 @@ def _parse_args() -> Namespace:
     return parser.parse_args()
 
 
-def main() -> int:
+def _main() -> int:
     signal(SIGPIPE, SIG_DFL)
     args = _parse_args()
 
@@ -82,3 +83,15 @@ def main() -> int:
     else:
         assert False
 
+
+def main() -> NoReturn:
+    try:
+        exit(_main())
+    except KeyboardInterrupt:
+        exit(130)
+    except BrokenPipeError:
+        exit(13)
+
+
+if __name__ == "__main__":
+    main()
