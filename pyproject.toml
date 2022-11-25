@@ -4,10 +4,10 @@ description     = "sorting commands for stdin -> stdout"
 name            = "sortd"
 readme          = "README.md"
 requires-python = ">=3.8.0"
-version         = "1.2.0"
+version         = "1.2.1"
 
-dependencies = [
-]
+dependencies = ["PyYAML==6.0", "toml==0.10.2"]
+
 [project.optional-dependencies]
 dev  = ["mypy", "types-PyYAML", "types-toml"]
 dist = ["wheel"]
