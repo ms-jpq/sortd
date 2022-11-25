@@ -46,7 +46,8 @@ jobs:
           )
 
       - name: Lint
-        run: mypy -- .
+        run: |-
+          mypy -- .
 
       - name: Release
         shell: python
