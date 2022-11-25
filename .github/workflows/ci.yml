@@ -28,6 +28,10 @@ jobs:
         with:
           python-version: ${{ matrix.python_ver }}
 
+      - name: Toml
+        run: |-
+          pip install -- tomli
+
       - name: Install Pip Packages
         shell: python
         run: |-
@@ -35,7 +39,7 @@ jobs:
           from os import execl
           from sys import executable
 
-          from tomllib import load
+          from tomli import load
 
           with open("pyproject.toml", "rb") as fd:
               toml = load(fd)
