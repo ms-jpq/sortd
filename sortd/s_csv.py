@@ -76,4 +76,3 @@ def p_csv(dialect: Optional[str], padding: bool) -> int:
         return 1
     else:
         return 0
-

@@ -14,6 +14,12 @@ def p_json(indent: int) -> int:
         return 1
     else:
         json = recur_sort(data)
-        dump(json, stdout, ensure_ascii=False, check_circular=False, indent=indent)
+        dump(
+            json,
+            stdout,
+            ensure_ascii=False,
+            check_circular=False,
+            allow_nan=False,
+            indent=indent,
+        )
         return 0
-
