@@ -9,7 +9,7 @@ version         = "1.2.3"
 dependencies = ["PyYAML==6.0", "toml==0.10.2"]
 
 [project.optional-dependencies]
-dev  = ["mypy", "types-PyYAML", "types-toml"]
+dev  = ["mypy", "types-PyYAML", "types-toml", "isort", "black"]
 dist = ["wheel"]
 
 [project.urls]
