@@ -6,7 +6,7 @@ readme          = "README.md"
 requires-python = ">=3.8.0"
 version         = "1.2.3"
 
-dependencies = ["PyYAML==6.0", "toml==0.10.2"]
+dependencies = ["PyYAML", "toml"]
 
 [project.optional-dependencies]
 dev  = ["mypy", "types-PyYAML", "types-toml", "isort", "black"]
