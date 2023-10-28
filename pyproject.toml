@@ -4,7 +4,7 @@ description     = "sorting commands for stdin -> stdout"
 name            = "sortd"
 readme          = "README.md"
 requires-python = ">=3.8.0"
-version         = "1.2.3"
+version         = "1.2.4"
 
 dependencies = ["PyYAML", "toml"]
 
