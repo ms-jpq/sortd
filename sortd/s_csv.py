@@ -3,20 +3,19 @@ from csv import Error as CSVErr
 from csv import Sniffer, list_dialects, reader, writer
 from io import StringIO
 from itertools import chain, repeat
-from locale import strxfrm
 from os import linesep
 from sys import stdin, stdout
 from typing import Iterable, Iterator, Optional, Tuple, Type, Union, cast
 
 from .consts import ERROR
-from .lib import log
+from .lib import log, strxfrm_l
 
 DIALECTS = list_dialects()
 
 
-def _keyby(field: Tuple[int, str]) -> str:
+def _keyby(field: Tuple[int, str]) -> Tuple[str, str]:
     _, name = field
-    return strxfrm(name)
+    return strxfrm_l(name)
 
 
 def _read(
